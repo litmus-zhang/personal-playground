@@ -1,0 +1,18 @@
+[tool.poetry]
+name = "stream-processing-with-faststream"
+version = "0.1.0"
+description = ""
+authors = ["litmus-zhang <abdulsalamlukmon9@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.12"
+faststream = {extras = ["nats"], version = "^0.5.12"}
+
+
+[tool.poetry.group.dev.dependencies]
+watchfiles = "^0.22.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
