@@ -1,0 +1,17 @@
+[tool.poetry]
+name = "rl-model-with-openai-gym"
+version = "0.1.0"
+description = ""
+authors = ["litmus-zhang <abdulsalamlukmon9@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.10"
+pip = "^24.1.1"
+install = "^1.3.5"
+ale-py = "^0.9.0"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
