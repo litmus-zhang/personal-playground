@@ -18,15 +18,17 @@ type List []item
 
 func (l *List) Add(task string) {
 	t := item{
-		Task:      task,
-		CreatedAt: time.Now(),
+		Task:        task,
+		Done:        false,
+		CompletedAt: time.Time{},
+		CreatedAt:   time.Now(),
 	}
 	*l = append(*l, t)
 }
 
 func (l *List) Complete(i int) error {
 	ls := *l
-	if i < 0 || i > len(ls) {
+	if i <= 0 || i > len(ls) {
 		return fmt.Errorf("item %d not in the list", i)
 	}
 	ls[i-1].Done = true
@@ -36,7 +38,7 @@ func (l *List) Complete(i int) error {
 
 func (l *List) Delete(i int) error {
 	ls := *l
-	if i < 0 || i > len(ls) {
+	if i <= 0 || i > len(ls) {
 		return fmt.Errorf("item %d not in the list", i)
 	}
 	*l = append(ls[:i-1], ls[i:]...)
@@ -70,10 +72,11 @@ func (l *List) String() string {
 	for k, t := range *l {
 		prefix := " "
 		if t.Done {
-			prefix = "X "
+			prefix = "✅ "
 		}
 
 		formatted += fmt.Sprintf("%s%d. %s\n", prefix, k+1, t.Task)
 	}
 	return formatted
 }
+
