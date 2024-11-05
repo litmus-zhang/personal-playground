@@ -13,8 +13,20 @@ services:
       - "5001:5432"
     volumes:
       - mainDB:/var/lib/postgresql/data
-    
+
+  test_db:
+    image: postgres:13-alpine
+    container_name: simple_bank_test_db
+    environment:
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: secret
+      POSTGRES_DB: simple_bank_test
+    ports:
+      - "5002:5432"
+    volumes:
+      - testDB:/var/lib/postgresql/data
 
 
 volumes:
   mainDB:
+  testDB:
