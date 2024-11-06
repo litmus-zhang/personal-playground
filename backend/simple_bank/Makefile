@@ -19,7 +19,13 @@ sqlc:
 test:
 	go test -v -cover ./...
 
+server:
+	go run main.go
+
 run_tests:
 	make migrateup && make test
 
-.PHONY: startdb stopdb migrateup migrateup_test migratedown sqlc  test run_tests
+mock:
+	mockgen -package mockdb -destination db/mock/store.go  github.com/litmus-zhang/simple_bank/bank Store
+
+.PHONY: startdb stopdb migrateup migrateup_test migratedown sqlc  test run_tests server mock
