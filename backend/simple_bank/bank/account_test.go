@@ -49,11 +49,11 @@ func TestGetAccount(t *testing.T) {
 
 func TestUpdateAccount(t *testing.T) {
 	acc1 := CreateAccountForTest(t)
-	arg := UpdateAccountsParams{
+	arg := UpdateAccountParams{
 		ID:      acc1.ID,
 		Balance: util.RandomMoney(100),
 	}
-	acc2, err := testQueries.UpdateAccounts(context.Background(), arg)
+	acc2, err := testQueries.UpdateAccount(context.Background(), arg)
 	require.NoError(t, err)
 	require.NotEmpty(t, acc2)
 	require.Equal(t, acc1.ID, acc2.ID)
