@@ -19,7 +19,7 @@ sqlc:
 test:
 	go test -v -cover ./...
 
-run_test:
-	make migrateup_test && make  test
+run_tests:
+	make migrateup && make test
 
-.PHONY: startdb stopdb migrateup migrateup_test migratedown sqlc  test run_test
+.PHONY: startdb stopdb migrateup migrateup_test migratedown sqlc  test run_tests
