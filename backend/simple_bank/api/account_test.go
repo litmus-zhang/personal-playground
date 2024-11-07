@@ -96,11 +96,20 @@ func TestGetAccountApi(t *testing.T) {
 }
 
 func randomAccount() bank.Account {
+	user := randomUser()
 	return bank.Account{
 		ID:       util.RandomInt(1, 1000),
-		Owner:    util.RandomOwner(),
+		Owner:    user.Username,
 		Balance:  util.RandomMoney(1000),
 		Currency: util.RandomCurrency(),
+	}
+}
+func randomUser() bank.User {
+	return bank.User{
+		Username:       util.RandomOwner(),
+		FullName:       util.RandomOwner() + " " + util.RandomOwner(),
+		Email:          util.RandomOwner() + "@test.com",
+		HashedPassword: util.RandomString(6),
 	}
 }
 

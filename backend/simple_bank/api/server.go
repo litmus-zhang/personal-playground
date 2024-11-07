@@ -18,11 +18,14 @@ func NewServer(store bank.Store) *Server {
 	if v, ok := binding.Validator.Engine().(*validator.Validate); ok {
 		v.RegisterValidation("currency", validCurrency)
 	}
+	api := router.Group("/api/v1")
 
-	router.POST("/accounts", server.createAccount)
-	router.GET("/accounts/:id", server.getAccount)
-	router.GET("/accounts", server.listAccounts)
-	router.POST("/transfers", server.createTransfer)
+	api.POST("/accounts", server.createAccount)
+	api.GET("/accounts/:id", server.getAccount)
+	api.GET("/accounts", server.listAccounts)
+	api.POST("/transfers", server.createTransfer)
+	api.POST("/users", server.createUser)
+	api.GET("/users/:username", server.getUser)
 
 	server.router = router
 	return server
