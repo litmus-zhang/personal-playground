@@ -34,7 +34,7 @@ module "eks-kubeconfig" {
 resource "local_file" "name" {
   content = module.eks-kubeconfig.kubeconfig
   filename = "kubeconfig_${local.cluster_name}"
-} // This is a resource block that writes the kubeconfig details to a file.
+} // This is a resource block that writes the kubeconfig details to a file on your local storage.
 
 module "vpc" {
     source = "terraform-aws-modules/vpc/aws"
@@ -53,7 +53,7 @@ module "vpc" {
         "kubernetes.io/cluster/${local.cluster_name}" = "shared"
         "kubernetes.io/role/elb" = "1"
     }
-}
+} // This is a module block that creates a VPC with public and private subnets, using the vpc module from the terraform-aws-modules GitHub repository. It specifies the VPC name, CIDR block, availability zones, subnets, NAT gateway, DNS hostnames, and subnet tags.
 
 module "eks" {
   source = "terraform-aws-modules/eks/aws"
@@ -66,7 +66,7 @@ module "eks" {
    eks_managed_node_groups = {
     first= {
         desired_capacity = 1
-        max_capacity = 10
+        max_capacity = 5
         min_capacity = 1
 
         instance_type = "t2.micro"
