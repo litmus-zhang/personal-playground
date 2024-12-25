@@ -4,6 +4,8 @@ import (
 	"interpreter-in-go/token"
 	"log"
 	"testing"
+
+	"github.com/stretchr/testify/require"
 )
 
 func TestBasicNextToken(t *testing.T) {
@@ -28,12 +30,8 @@ func TestBasicNextToken(t *testing.T) {
 	for i, tt := range tests {
 		tok := l.NextToken()
 
-		if tok.Type != tt.expectedType {
-			t.Fatalf("test[%v] - tokentype wrong. Expected=%q, Got=%q", i, tt.expectedType, tok.Type)
-		}
-		if tok.Literal != tt.expectedLiteral {
-			t.Fatalf("test[%v] - literal wrong. Expected=%q, Got=%q", i, tt.expectedLiteral, tok.Literal)
-		}
+		require.Equalf(t, tok.Type, tt.expectedType, "test[%v] - tokentype wrong. Expected=%q, Got=%q", i, tt.expectedType, tok.Type)
+		require.Equalf(t, tok.Literal, tt.expectedLiteral, "test[%v] - literal wrong. Expected=%q, Got=%q", i, tt.expectedLiteral, tok.Literal)
 	}
 }
 func TestNormalNextToken(t *testing.T) {
@@ -92,13 +90,61 @@ func TestNormalNextToken(t *testing.T) {
 
 	for i, tt := range tests {
 		tok := l.NextToken()
-		log.Printf("cur val: %v",input[i])
+		log.Printf("cur val: %v", string(input[i]))
 
-		if tok.Type != tt.expectedType {
-			t.Fatalf("test[%v] - tokentype wrong. Expected=%q, Got=%q", i, tt.expectedType, tok.Type)
-		}
-		if tok.Literal != tt.expectedLiteral {
-			t.Fatalf("test[%v] - literal wrong. Expected=%q, Got=%q", i, tt.expectedLiteral, tok.Literal)
-		}
+		require.Equalf(t, tok.Type, tt.expectedType, "test[%v] - tokentype wrong. Expected=%q, Got=%q", i, tt.expectedType, tok.Type)
+		require.Equalf(t, tok.Literal, tt.expectedLiteral, "test[%v] - literal wrong. Expected=%q, Got=%q", i, tt.expectedLiteral, tok.Literal)
+
+	}
+}
+
+func TestLexer_readIdentifier(t *testing.T) {
+	type fields struct {
+		input        string
+		position     int
+		readPosition int
+		ch           byte
+	}
+	tests := []struct {
+		name   string
+		fields fields
+		want   string
+	}{
+		// TODO: Add test cases.
+		{
+			name: "keywords",
+			fields: fields{
+				input: "let",
+				position: 0,
+				readPosition: 3,
+				ch: 't',
+
+			},
+			want: token.LET,
+		},
+		{
+			name: "keywords",
+			fields: fields{
+				input: "fn",
+				position: 0,
+				readPosition: 2,
+				ch: 'n',
+				
+			},
+			want: token.FUNCTION,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			l := &Lexer{
+				input:        tt.fields.input,
+				position:     tt.fields.position,
+				readPosition: tt.fields.readPosition,
+				ch:           tt.fields.ch,
+			}
+			if got := l.readIdentifier(); got != tt.want {
+				t.Errorf("Lexer.readIdentifier() = %v, want %v", got, tt.want)
+			}
+		})
 	}
 }
