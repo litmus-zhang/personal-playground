@@ -1,7 +1,7 @@
 import ray
 from ray.rllib.algorithms.ppo import PPOConfig
 import numpy as np
-import TradingEnv from env
+from env import TradingEnv
 
 ray.init()
 
@@ -12,9 +12,10 @@ config = (
     .environment(
         env=TradingEnv,
         env_config={"prices": prices}
+
     )
     .framework("torch")
-    .rollouts(num_rollout_workers=2)
+    .env_runners(num_rollout_workers=2)
     .training(
         gamma=0.99,
         lr=3e-4,
