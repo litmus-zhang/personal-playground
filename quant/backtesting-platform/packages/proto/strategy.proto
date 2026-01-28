@@ -1,0 +1,18 @@
+syntax = "proto3";
+
+package strategy;
+
+service StrategyService {
+  rpc RegisterStrategy(RegisterStrategyRequest)
+    returns (RegisterStrategyResponse);
+}
+
+message RegisterStrategyRequest {
+  string name = 1;
+  string language = 2;
+  string source_code = 3;
+}
+
+message RegisterStrategyResponse {
+  string strategy_id = 1;
+}

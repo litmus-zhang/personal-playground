@@ -1,0 +1,19 @@
+syntax = "proto3";
+
+package backtest;
+
+service BacktestService {
+  rpc RunBacktest(RunBacktestRequest)
+    returns (RunBacktestResponse);
+}
+
+message RunBacktestRequest {
+  string strategy_id = 1;
+  string symbol = 2;
+  string start_date = 3;
+  string end_date = 4;
+}
+
+message RunBacktestResponse {
+  string backtest_id = 1;
+}
